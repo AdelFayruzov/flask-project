@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>{{title}}</title>
+</head>
+  <body style="background-image: url({{ url_for('static', filename='img/1.gif') }}); background-size: cover; background-attachment: fixed; width:1024px; margin-right: auto; margin-left: auto; min-height: 100%; margin-top:100px">
+    <header style="height: 100%; box-shadow: 10px 10px 10px #1e14bd55">
+        <nav class="navbar navbar-light bg-light">
+            <a href="/index"><img src= "{{ url_for('static', filename='img/2.jpg') }}"></a>
+            <a href="/index" style="margin-right: 100px"><img src= "{{ url_for('static', filename='img/hgs.jpg') }}"></a>
+            {% if "username" in session %}
+            <div class="form-group form-icon" style="position: absolute; left: 500px; top: 10px">
+              <label class="control-label" style="left: 320px; top: 1px; position: relative; text-shadow: 0px 0px 5px #1e14bd55" for="name-user">Имя пользователя: {{ username }}</label>
+              <i class="glyphicon glyphicon-user input-icon" aria-hidden="true"></i>
+            </div>
+            {% if session['username'] != 'admin' %}
+            <a href="/user_pur"><button type="button" class="btn btn-success" style="position: relative; right: 10px">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bag" viewBox="0 0 16 16">
+  <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z"></path>
+</svg>
+                Корзина
+            </button></a>
+            {% endif %}
+            <a href="/logout"><button type="button" class="btn btn-danger">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-left" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0v2z"></path>
+  <path fill-rule="evenodd" d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3z"></path>
+</svg>
+                Выйти
+              </button></a>
+            {% else %}
+            <div>
+                <a href="/registration"> <button type="button" class="btn btn-primary">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-plus-fill" viewBox="0 0 16 16">
+  <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
+  <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z"></path>
+</svg>
+                Регистрация
+              </button></a>
+                <a href="/login"> <button type="button" class="btn btn-success">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-door-open-fill" viewBox="0 0 16 16" style="margin-left: 5px">
+  <path d="M1.5 15a.5.5 0 0 0 0 1h13a.5.5 0 0 0 0-1H13V2.5A1.5 1.5 0 0 0 11.5 1H11V.5a.5.5 0 0 0-.57-.495l-7 1A.5.5 0 0 0 3 1.5V15H1.5zM11 2h.5a.5.5 0 0 1 .5.5V15h-1V2zm-2.5 8c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1z"></path>
+</svg>
+                Вход
+              </button></a>
+            </div>
+            {% endif %}
+        </nav>
+    </header>
+    <main role="main" class="container" style="min-width:1024px; padding:0">
+        <div style="height:100%; min-height: 980px; background-color: rgba(255, 255, 255, 0.9); width:1024px;box-shadow: 10px 10px 10px #1e14bd55">
+            {% block content %}{% endblock %}
+            <footer class="pt-4 my-md-5 pt-md-5 border-top">
+        <div class="row">
+          <div class="col-12 col-md">
+            <img class="mb-2" src= "{{ url_for('static', filename='img/controller.svg') }}" alt="" width="24" height="24">
+            <small class="d-block mb-3 text-muted">©2021 @HYDRAGAMESHOP</small>
+          </div>
+        </div>
+    </main>
+  </body>
+</html>
