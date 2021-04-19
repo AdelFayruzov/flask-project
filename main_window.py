@@ -10,7 +10,6 @@ from PIL import Image
 import os
 import cloudipsp
 from flask_restful import reqparse, abort, Api, Resource
-from random import choice
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
@@ -18,10 +17,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///store.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
-
-symbols = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O",
-           "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "1", "2", "3",
-           "4", "5", "6", "7", "8", "9", "0"]
 
 
 class User(Resource):
@@ -133,16 +128,6 @@ def abort_if_user_not_found(user_id):
 def abort_if_game_not_found(game_id):
     if not Game.query.filter_by(game_id=game_id).first():
         abort(404, message="User {} not found".format(game_id))
-
-
-def key_gen():
-    key = ''
-    for i in range(4):
-        for j in range(4):
-            key += choice(symbols)
-        key += '-'
-    key = key[:-1]
-    return key
 
 
 class User(db.Model):
@@ -400,6 +385,9 @@ def logout():
     return redirect('/index')
 
 
+"""Сортировки"""
+
+
 @app.route('/sort_by_price_up')
 def sort_by_price_up():
     games = Game.query.order_by(Game.price).all()
@@ -553,6 +541,7 @@ def delete_pur(pur_id, game_id):
 
 @app.route('/buy_pur')
 def buy_pur():
+    """Покупка"""
     items = Purchase.query.filter_by(user_id=session['user_id']).all()
     api = cloudipsp.Api(merchant_id=1396424,
                         secret_key='test')
@@ -598,7 +587,6 @@ def edit_publisher(pub_id):
         db.session.commit()
         flash('Измениния прошли успешно!')
         return redirect('/edit_publisher/' + str(pub.pub_id))
-    '''Устанавливаем дефолтные значения полей'''
     form.pub_name.data = pub.pub_name
     form.address.data = pub.address
     form.telephone.data = pub.telephone
